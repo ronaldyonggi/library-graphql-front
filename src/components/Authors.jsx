@@ -1,7 +1,20 @@
-export default function Authors({ show, authors }) {
+import { useQuery } from "@apollo/client";
+import { ALL_AUTHORS } from "../queries";
+
+export default function Authors({ show }) {
+  const {loading, error, data} = useQuery(ALL_AUTHORS, {
+    skip: !show
+  })
+
   if (!show) {
     return null;
   }
+
+  if (loading) {
+    return <div>loading...</div>
+  }
+
+  const authors = data.allAuthors;
 
   return (
     <div>
