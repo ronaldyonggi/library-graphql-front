@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Authors from './components/Authors';
 import Books from './components/Books'
+import NewBook from './components/NewBook';
 
 export default function App() {
   const [page, setPage] = useState('authors');
@@ -15,6 +16,7 @@ export default function App() {
 
       <Authors show={page === "authors"} />
       <Books show={page === "books"} />
+      <NewBook show={page === "add"} />
     </div>
   );
 }
