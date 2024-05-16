@@ -2,21 +2,19 @@ import { useMutation } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { ALL_AUTHORS, EDIT_AUTHOR } from '../queries';
 
-export default function SetAuthorBirth() {
-  const [name, setName] = useState('');
+export default function SetAuthorBirth({ authors }) {
+  const [name, setName] = useState(authors[0].name);
   const [born, setBorn] = useState('');
 
   const [editAuthor, { data, loading, error }] = useMutation(EDIT_AUTHOR, {
-    refetchQueries: [{ query: ALL_AUTHORS}]
-  }
-  );
+    refetchQueries: [{ query: ALL_AUTHORS }],
+  });
 
   const submit = async (event) => {
     event.preventDefault();
 
     editAuthor({ variables: { name, setBornTo: parseInt(born) } });
 
-    setName('');
     setBorn('');
   };
 
@@ -32,10 +30,11 @@ export default function SetAuthorBirth() {
       <form onSubmit={submit}>
         <div>
           name
-          <input
-            value={name}
-            onChange={({ target }) => setName(target.value)}
-          />
+          <select value={name} onChange={(e) => setName(e.target.value)}>
+            {authors.map((a) => (
+              <option key={a.name}>{a.name}</option>
+            ))}
+          </select>
         </div>
         <div>
           born
