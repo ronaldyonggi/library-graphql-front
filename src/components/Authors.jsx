@@ -39,7 +39,7 @@ export default function Authors({ show }) {
         </table>
       </div>
 
-      <SetAuthorBirth />
+      <SetAuthorBirth authors={authors} />
     </div>
   );
 }
