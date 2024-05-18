@@ -1,18 +1,17 @@
-import { useQuery } from "@apollo/client";
-import { ALL_BOOKS } from "../queries";
+import { useQuery } from '@apollo/client';
+import { ALL_BOOKS } from '../queries';
 
 export default function Books({ show }) {
-
   const { loading, error, data } = useQuery(ALL_BOOKS, {
-    skip: !show
-  })
-
-  if (loading) {
-    return <div>loading...</div>
-  }
+    skip: !show,
+  });
 
   if (!show) {
     return null;
+  }
+
+  if (loading) {
+    return <div>loading...</div>;
   }
 
   const books = data.allBooks;
