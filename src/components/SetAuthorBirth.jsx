@@ -2,12 +2,16 @@ import { useMutation } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { ALL_AUTHORS, EDIT_AUTHOR } from '../queries';
 
-export default function SetAuthorBirth({ authors }) {
+export default function SetAuthorBirth({ authors, token, setError }) {
   const [name, setName] = useState(authors[0].name);
   const [born, setBorn] = useState('');
 
   const [editAuthor, { data, loading, error }] = useMutation(EDIT_AUTHOR, {
+    onError: (error) => {
+      setError(error.graphQLErrors[0].message);
+    },
     refetchQueries: [{ query: ALL_AUTHORS }],
+    skip: !token,
   });
 
   const submit = async (event) => {
@@ -23,6 +27,10 @@ export default function SetAuthorBirth({ authors }) {
       console.log('author not found');
     }
   }, [data]);
+
+  if (!token) {
+    return null;
+  }
 
   return (
     <div>
