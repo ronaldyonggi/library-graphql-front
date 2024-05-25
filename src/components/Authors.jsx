@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { ALL_AUTHORS } from '../queries';
 import SetAuthorBirth from './SetAuthorBirth';
 
-export default function Authors({ show }) {
+export default function Authors({ show, token, setError }) {
   const { loading, error, data } = useQuery(ALL_AUTHORS, {
     skip: !show,
   });
@@ -39,7 +39,7 @@ export default function Authors({ show }) {
         </table>
       </div>
 
-      <SetAuthorBirth authors={authors} />
+      <SetAuthorBirth authors={authors} token={token} setError={setError} />
     </div>
   );
 }
