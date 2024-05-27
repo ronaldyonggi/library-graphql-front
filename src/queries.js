@@ -13,14 +13,15 @@ export const ALL_AUTHORS = gql`
 
 export const ALL_BOOKS = gql`
   #graphql
-  query {
-    allBooks {
+  query allBooks($genreFilter: String) {
+    allBooks (genre: $genreFilter) {
       title
       published
       author {
         name
         born
       }
+      genres
     }
   }
 `;
