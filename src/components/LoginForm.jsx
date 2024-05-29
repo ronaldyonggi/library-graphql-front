@@ -16,8 +16,10 @@ export default function LoginForm({ show, setError, setToken, setPage }) {
   useEffect(() => {
     if (data) {
       const token = data.login.value;
+      const favoriteGenre = data.login.favoriteGenre
       setToken(token);
       localStorage.setItem('library-user-token', token);
+      localStorage.setItem('library-user-favoriteGenre', favoriteGenre)
     }
   }, [data]);
 
