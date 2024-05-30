@@ -17,6 +17,7 @@ export default function App() {
     setToken(null);
     localStorage.clear();
     client.resetStore();
+    setPage('authors');
   };
 
   const notificationHelper = (message) => {
@@ -43,7 +44,11 @@ export default function App() {
       </div>
 
       <Notify errorMessage={errorMessage} />
-      <Authors show={page === 'authors'} token={token} setError={notificationHelper} />
+      <Authors
+        show={page === 'authors'}
+        token={token}
+        setError={notificationHelper}
+      />
       <Books show={page === 'books'} />
       <NewBook show={page === 'add'} />
       <LoginForm
