@@ -50,7 +50,7 @@ export default function App() {
         setError={notificationHelper}
       />
       <Books show={page === 'books'} />
-      <NewBook show={page === 'add'} />
+      <NewBook show={page === 'add'} setError={notificationHelper} />
       <LoginForm
         show={page === 'login'}
         setError={notificationHelper}
