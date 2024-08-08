@@ -1,38 +1,5 @@
-import { gql } from "@apollo/client";
-
-const BOOK_DETAILS = gql`
-  #graphql
-  fragment BookDetails on Book {
-    title
-    published
-    author {
-      name
-      born
-    }
-    genres
-  }
-`;
-
-export const ALL_AUTHORS = gql`
-  #graphql
-  query {
-    allAuthors {
-      name
-      born
-      bookCount
-    }
-  }
-`;
-
-export const ALL_BOOKS = gql`
-  #graphql
-  query allBooks($genreFilter: String) {
-    allBooks(genre: $genreFilter) {
-      ...BookDetails
-    }
-  }
-  ${BOOK_DETAILS}
-`;
+import { gql } from '@apollo/client';
+import { BOOK_DETAILS } from './fragments';
 
 export const CREATE_BOOK = gql`
   #graphql
