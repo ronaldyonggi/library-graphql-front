@@ -1,9 +1,9 @@
 import { useQuery } from '@apollo/client';
-import { ALL_BOOKS } from '../queries';
+import { ALL_BOOKS } from '../graphql/queries';
 import { useState } from 'react';
 
 export default function Books({ show }) {
-  const [genreFilter, setGenreFilter] = useState(null)
+  const [genreFilter, setGenreFilter] = useState(null);
   const { loading, error, data } = useQuery(ALL_BOOKS, {
     variables: { genreFilter },
     skip: !show,
@@ -52,7 +52,9 @@ export default function Books({ show }) {
 
       <div>
         {allGenres.map((g, index) => (
-          <button key={index} onClick={() => setGenreFilter(g)}>{g}</button>
+          <button key={index} onClick={() => setGenreFilter(g)}>
+            {g}
+          </button>
         ))}
         <button onClick={() => setGenreFilter(null)}>all genres</button>
       </div>

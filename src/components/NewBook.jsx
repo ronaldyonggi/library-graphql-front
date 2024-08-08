@@ -1,17 +1,18 @@
-import { useState } from "react";
-import { ALL_AUTHORS, ALL_BOOKS, CREATE_BOOK } from "../queries";
-import { useMutation } from "@apollo/client";
+import { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { ALL_BOOKS } from '../graphql/queries';
+import { CREATE_BOOK } from '../graphql/mutations';
 
 export default function NewBook({ show, setError }) {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [published, setPublished] = useState("");
-  const [genre, setGenre] = useState("");
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [published, setPublished] = useState('');
+  const [genre, setGenre] = useState('');
   const [genres, setGenres] = useState([]);
 
   const [createBook] = useMutation(CREATE_BOOK, {
     onError: (error) => {
-      const messages = error.graphQLErrors.map((e) => e.message).join("\n");
+      const messages = error.graphQLErrors.map((e) => e.message).join('\n');
       setError(messages);
     },
     update: (cache, response) => {
@@ -30,7 +31,7 @@ export default function NewBook({ show, setError }) {
   const submit = async (event) => {
     event.preventDefault();
 
-    console.log("Added book...");
+    console.log('Added book...');
 
     await createBook({
       variables: {
@@ -41,16 +42,16 @@ export default function NewBook({ show, setError }) {
       },
     });
 
-    setTitle("");
-    setPublished("");
-    setAuthor("");
+    setTitle('');
+    setPublished('');
+    setAuthor('');
     setGenres([]);
-    setGenre("");
+    setGenre('');
   };
 
   const addGenre = () => {
     setGenres(genres.concat(genre));
-    setGenre("");
+    setGenre('');
   };
 
   return (
@@ -82,12 +83,12 @@ export default function NewBook({ show, setError }) {
             value={genre}
             onChange={({ target }) => setGenre(target.value)}
           />
-          <button onClick={addGenre} type="button">
+          <button onClick={addGenre} type='button'>
             Add genre
           </button>
         </div>
-        <div>genres: {genres.join(", ")}</div>
-        <button type="submit">Create book</button>
+        <div>genres: {genres.join(', ')}</div>
+        <button type='submit'>Create book</button>
       </form>
     </div>
   );

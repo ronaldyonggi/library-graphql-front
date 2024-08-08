@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { useEffect, useState } from 'react';
-import { ALL_AUTHORS, EDIT_AUTHOR } from '../queries';
+import { ALL_AUTHORS } from '../graphql/queries';
+import { EDIT_AUTHOR } from '../graphql/mutations';
 
 export default function SetAuthorBirth({ authors, token, setError }) {
   const [name, setName] = useState(authors[0].name);
@@ -51,7 +52,7 @@ export default function SetAuthorBirth({ authors, token, setError }) {
             onChange={({ target }) => setBorn(target.value)}
           />
         </div>
-        <button type="submit">Update author</button>
+        <button type='submit'>Update author</button>
       </form>
     </div>
   );

@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { ALL_BOOKS } from '../queries';
+import { ALL_BOOKS } from '../graphql/queries';
 
 export default function Recommendations({ show }) {
   const genreFilter = localStorage.getItem('library-user-favoriteGenre');

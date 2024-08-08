@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { ALL_AUTHORS } from '../queries';
+import { ALL_AUTHORS } from '../graphql/queries';
 import SetAuthorBirth from './SetAuthorBirth';
 
 export default function Authors({ show, token, setError }) {
