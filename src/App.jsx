@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Authors from './components/Authors';
 import Books from './components/Books';
 import NewBook from './components/NewBook';
@@ -9,9 +9,20 @@ import Recommendations from './components/Recommendations';
 
 export default function App() {
   const [token, setToken] = useState(null);
+  const [user, setUser] = useState('');
   const [page, setPage] = useState('authors');
   const [errorMessage, setErrorMessage] = useState(null);
   const client = useApolloClient();
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const token = localStorage.getItem('library-user-token');
+    const username = localStorage.getItem('library-user-username');
+    if (token) {
+      setToken(token);
+      setUser(username);
+    }
+  }, [token]);
 
   const logout = () => {
     setToken(null);
@@ -30,6 +41,7 @@ export default function App() {
   return (
     <div>
       <div>
+        <div>{user && `Welcome back ${user}`}</div>
         <button onClick={() => setPage('authors')}>Authors</button>
         <button onClick={() => setPage('books')}>Books</button>
         {token ? (
