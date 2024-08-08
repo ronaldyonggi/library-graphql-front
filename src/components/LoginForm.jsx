@@ -17,9 +17,11 @@ export default function LoginForm({ show, setError, setToken, setPage }) {
     if (data) {
       const token = data.login.value;
       const favoriteGenre = data.login.favoriteGenre;
+      const storedUsername = data.login.username;
       setToken(token);
       localStorage.setItem('library-user-token', token);
       localStorage.setItem('library-user-favoriteGenre', favoriteGenre);
+      localStorage.setItem('library-user-username', storedUsername);
     }
   }, [data]);
 
