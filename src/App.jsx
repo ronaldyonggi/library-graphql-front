@@ -3,9 +3,27 @@ import Authors from './components/Authors';
 import Books from './components/Books';
 import NewBook from './components/NewBook';
 import Notify from './components/Notify';
-import { useApolloClient } from '@apollo/client';
+import { useApolloClient, useSubscription } from '@apollo/client';
 import LoginForm from './components/LoginForm';
 import Recommendations from './components/Recommendations';
+import { BOOK_ADDED } from './graphql/subscriptions';
+import { ALL_BOOKS } from './graphql/queries';
+
+export const updateCache = (cache, query, addedBook) => {
+  // Helper for eliminating duplicate books
+  const uniqByTitle = (a) => {
+    let seen = new Set();
+    return a.filter((item) => {
+      let k = item.title;
+      return seen.has(k) ? false : seen.add(k);
+    });
+  };
+  cache.updateQuery(query, ({ allBooks }) => {
+    return {
+      allBooks: uniqByTitle(allBooks.concat(addedBook)),
+    };
+  });
+};
 
 export default function App() {
   const [token, setToken] = useState(null);
@@ -23,6 +41,19 @@ export default function App() {
       setUser(username);
     }
   }, [token]);
+
+  useSubscription(BOOK_ADDED, {
+    onData: ({ data, client }) => {
+      console.log(data);
+      const addedBook = data.data.bookAdded;
+      notificationHelper(
+        `book '${addedBook.title}' by ${addedBook.author.name} added`
+      );
+      window.alert(`book '${addedBook.title}' added`);
+
+      updateCache(client.cache, { query: ALL_BOOKS }, addedBook);
+    },
+  });
 
   const logout = () => {
     setToken(null);
@@ -61,7 +92,7 @@ export default function App() {
         token={token}
         setError={notificationHelper}
       />
-      <Books show={page === 'books'} />
+      <Books show={page === 'books'} setError={notificationHelper} />
       <NewBook show={page === 'add'} setError={notificationHelper} />
       <LoginForm
         show={page === 'login'}
