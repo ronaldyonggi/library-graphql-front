@@ -47,3 +47,10 @@ export const DELETE_BOOK = gql`
     deleteBook(id: $id)
   }
 `;
+
+export const DELETE_AUTHOR = gql`
+  #graphql
+  mutation deleteAuthor($id: ID!) {
+    deleteAuthor(id: $id)
+  }
+`;
