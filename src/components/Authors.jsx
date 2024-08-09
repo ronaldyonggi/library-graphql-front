@@ -1,11 +1,13 @@
 import { useQuery } from '@apollo/client';
 import { ALL_AUTHORS } from '../graphql/queries';
 import SetAuthorBirth from './SetAuthorBirth';
+import useDeleteAuthor from '../hooks/useDeleteAuthor';
 
 export default function Authors({ show, token, setError }) {
-  const { loading, error, data } = useQuery(ALL_AUTHORS, {
+  const { loading, error, data, refetch } = useQuery(ALL_AUTHORS, {
     skip: !show,
   });
+  const [deleteAuthor] = useDeleteAuthor();
 
   if (!show) {
     return null;
@@ -16,6 +18,15 @@ export default function Authors({ show, token, setError }) {
   }
 
   const authors = data.allAuthors;
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteAuthor(id);
+      await refetch();
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   return (
     <div>
@@ -33,6 +44,11 @@ export default function Authors({ show, token, setError }) {
                 <td>{a.name}</td>
                 <td>{a.born}</td>
                 <td>{a.bookCount}</td>
+                {a.bookCount > 0 ? null : (
+                  <td>
+                    <button onClick={() => handleDelete(a.id)}>delete</button>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
