@@ -41,3 +41,9 @@ export const LOGIN = gql`
     }
   }
 `;
+export const DELETE_BOOK = gql`
+  #graphql
+  mutation deleteBook($id: ID!) {
+    deleteBook(id: $id)
+  }
+`;
