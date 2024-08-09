@@ -44,14 +44,13 @@ export default function App() {
 
   useSubscription(BOOK_ADDED, {
     onData: ({ data, client }) => {
-      console.log(data);
       const addedBook = data.data.bookAdded;
       notificationHelper(
         `book '${addedBook.title}' by ${addedBook.author.name} added`
       );
       window.alert(`book '${addedBook.title}' added`);
 
-      updateCache(client.cache, { query: ALL_BOOKS }, addedBook);
+      updateCache(client.cache, { query: ALL_BOOKS, variables: { genreFilter: null } }, addedBook);
     },
   });
 
