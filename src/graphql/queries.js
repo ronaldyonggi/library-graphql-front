@@ -5,6 +5,7 @@ export const ALL_AUTHORS = gql`
   #graphql
   query {
     allAuthors {
+      id
       name
       born
       bookCount

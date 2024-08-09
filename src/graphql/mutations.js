@@ -36,7 +36,21 @@ export const LOGIN = gql`
   mutation login($username: String!, $password: String!) {
     login(username: $username, password: $password) {
       value
+      username
       favoriteGenre
     }
+  }
+`;
+export const DELETE_BOOK = gql`
+  #graphql
+  mutation deleteBook($id: ID!) {
+    deleteBook(id: $id)
+  }
+`;
+
+export const DELETE_AUTHOR = gql`
+  #graphql
+  mutation deleteAuthor($id: ID!) {
+    deleteAuthor(id: $id)
   }
 `;
