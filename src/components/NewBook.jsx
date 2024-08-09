@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ALL_BOOKS } from '../graphql/queries';
 import { CREATE_BOOK } from '../graphql/mutations';
+import { updateCache } from '../App';
 
 export default function NewBook({ show, setError }) {
   const [title, setTitle] = useState('');
@@ -16,11 +17,11 @@ export default function NewBook({ show, setError }) {
       setError(messages);
     },
     update: (cache, response) => {
-      cache.updateQuery({ query: ALL_BOOKS }, ({ allBooks }) => {
-        return {
-          allBooks: allBooks.concat(response.data.addBook),
-        };
-      });
+      updateCache(
+        cache,
+        { query: ALL_BOOKS, variables: { genreFilter: null } },
+        response.data.addBook
+      );
     },
   });
 
