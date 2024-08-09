@@ -1,12 +1,13 @@
 import { useQuery } from '@apollo/client';
 import { ALL_BOOKS } from '../graphql/queries';
 import { useState } from 'react';
+import useDeleteBook from '../hooks/useDeleteBook';
 
-export default function Books({ show }) {
+export default function Books({ show, setError }) {
   const [genreFilter, setGenreFilter] = useState(null);
-  const { loading, error, data } = useQuery(ALL_BOOKS, {
+  const [deleteBook] = useDeleteBook();
+  const { loading, error, data, refetch } = useQuery(ALL_BOOKS, {
     variables: { genreFilter },
-    skip: !show,
   });
 
   if (!show) {
@@ -29,6 +30,15 @@ export default function Books({ show }) {
     });
   });
 
+  const handleDelete = async (id) => {
+    try {
+      await deleteBook(id);
+      await refetch();
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   return (
     <div>
       <h2>Books</h2>
@@ -45,6 +55,9 @@ export default function Books({ show }) {
               <td>{b.title}</td>
               <td>{b.author.name}</td>
               <td>{b.published}</td>
+              <td>
+                <button onClick={() => handleDelete(b.id)}>delete</button>
+              </td>
             </tr>
           ))}
         </tbody>
